@@ -1,7 +1,7 @@
 <?php
 namespace Garan24;
 use \Garan24\Gateway\Aruispay\Exception  as Garan24GatewayAruispayException;
-class BaseConnector implements Interfaces\IConnector{
+class BaseConnector extends \Garan24\Garan24 implements Interfaces\IConnector{
     protected $_curl;
     protected $_curl_options;
     protected $_url;
