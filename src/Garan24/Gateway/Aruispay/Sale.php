@@ -56,12 +56,14 @@ class Sale extends BaseConnector implements ITransaction{
         if(!isset($this->_response_data["type"])){
             throw new Garan24GatewayAruispayException("Error in response. Wrong format",500);
         }
+        //print_r(in_array($this->_response_data["type"],["async-form-response"]));
         if(in_array($this->_response_data["type"],["async-form-response"])){
             throw new Garan24GatewayAruispayException(
                 isset($this->_response_data["error-message"])?$this->_response_data["error-message"]:"Unknown message",
                 isset($this->_response_data["error-code"])?$this->_response_data["error-code"]:500
             );
         }
+        if(isset($this->_response_data["redirect-url"])) $this->redirect($this->_response_data["redirect-url"]);
         return true;
     }
     public function check(){
