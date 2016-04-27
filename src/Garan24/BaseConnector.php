@@ -8,7 +8,7 @@ class BaseConnector extends \Garan24\Garan24 implements Interfaces\IConnector{
     protected $_endpoint;
     protected $_merchant_key;
     protected $_merchant_login;
-    protected $_debug = false;
+
     /*******************************************************************************
      ** Sale Request Parameters
      * @param string[128]	client_orderid	- 	Merchant order identifier.
@@ -43,9 +43,7 @@ class BaseConnector extends \Garan24\Garan24 implements Interfaces\IConnector{
     protected $_request_data = [];
     protected $_response_data = [];
     protected $_method = "sale-form";
-    public function setDebugMode($b = true){
-        $this->_debug=$b;
-    }
+
     public function __construct($opts = []){
         $this->_url = (!isset($opts["url"]))?"https://sandbox.ariuspay.ru/paynet/api/v2/":$opts["url"];
         $this->_endpoint = (!isset($opts["endpoint"]))?"1144":$opts["endpoint"];
@@ -110,13 +108,9 @@ class BaseConnector extends \Garan24\Garan24 implements Interfaces\IConnector{
         curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
         $response = curl_exec($curl);
         parse_str($response,$result);
-        if($this->_debug){
-            print("**********************************************************\n");
-            print("URL:[".$this->_url.$method."/".$this->_endpoint."]\n");
-            print_r($data);
-            print_r($result);
-            print("**********************************************************\n");
-        }
+        self::debug("URL:[".$this->_url.$method."/".$this->_endpoint."]\n");
+        self::debug($data);
+        self::debug($result);
         //fclose($fp);
         return $result;
         //return json_decode($result, 1);
@@ -124,12 +118,9 @@ class BaseConnector extends \Garan24\Garan24 implements Interfaces\IConnector{
 
     protected function digest($str){
         $str = preg_replace("/[\r\n\s]+/","",$str);
+        self::debug("SHA1:what:{$str}");
         $res = sha1($str);
-        if($this->_debug){
-            print("**********************************************************\n");
-            print("SHA1\n{$str}\n{$res}\n");
-            print("**********************************************************\n");
-        }
+        self::debug("SHA1:get:{$res}");
         return $res;
     }
 };

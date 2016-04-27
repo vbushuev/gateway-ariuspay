@@ -42,6 +42,7 @@ class Sale extends BaseConnector{
     }
     protected function build(){
         $this->_request_data["merchant_control"] = $this->_merchant_key;
+        $amount = $this->_request_data["amount"]*100;
         $this->_request_data["control"] = $this->digest(
             trim($this->_endpoint)
             .trim($this->_request_data["client_orderid"])
