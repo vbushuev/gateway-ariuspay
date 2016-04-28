@@ -48,7 +48,7 @@ class BaseConnector extends \Garan24\Garan24 implements Interfaces\IConnector{
         $this->_url = (!isset($opts["url"]))?"https://sandbox.ariuspay.ru/paynet/api/v2/":$opts["url"];
         $this->_endpoint = (!isset($opts["endpoint"]))?"1144":$opts["endpoint"];
         $this->_merchant_key = (!isset($opts["merchantKey"]))?"99347351-273F-4D88-84B4-89793AE62D94":$opts["merchantKey"];
-        $this->_merchant_login = (!isset($opts["merchantLogin"]))?"GARAN24":$opts["merchantLogin"];
+        $this->_merchant_login = (!isset($opts["merchantLogin"]))?"GARAN24-3ds":$opts["merchantLogin"];
     }
     /*******************************************************************************
      * Производит перенаправление пользователя на заданный адрес
@@ -59,6 +59,30 @@ class BaseConnector extends \Garan24\Garan24 implements Interfaces\IConnector{
         Header("HTTP 302 Found");
         Header("Location: ".$url);
         die();
+    }
+    /*******************************************************************************
+     * Вызов метода REST.
+     *
+     * @param string $method вызываемый метод
+     * @param array $data параметры вызова метода
+     *
+     * @return array
+     ******************************************************************************/
+    public function response($data){
+        self::debug($data);
+        $this->_response_data = $data;
+        if(!isset($this->_response_data["type"])){
+            throw new Garan24GatewayAruispayException(
+                "Unknown message",
+                500
+            );
+        }
+        if(in_array(trim($this->_response_data["status"]),['declined'])){
+            throw new Garan24GatewayAruispayException(
+                isset($this->_response_data["error-message"])?$this->_response_data["error-message"]:"Unknown message",
+                isset($this->_response_data["error-code"])?$this->_response_data["error-code"]:500
+            );
+        }
     }
     /*******************************************************************************
      * Вызов метода REST.

@@ -37,11 +37,8 @@ class Garan24{
             $str="object [".$str."\n]";
         }
         else $str=$mix;
-        switch(self::$logger){
-            case "laravel":{
-                (class_exists("Log",false))?call_user_func("Log::debug",$str."\n"):"";
-            }break;
-        }
+        (class_exists("Log",false))?call_user_func("Log::debug",$str."\n"):file_put_contents("../garan24-".date("Y-m-d").'.log',$str."\n",FILE_APPEND);
+
     }
 }
 ?>
