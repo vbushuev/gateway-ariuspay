@@ -22,23 +22,27 @@ class Garan24{
     }
     public static function debug($mix){
         if(!self::$_debug)return;
+        $str=self::obj2str($mix);
+        (class_exists("Log",false))?call_user_func("Log::debug",$str."\n"):file_put_contents("../garan24-".date("Y-m-d").'.log',$str."\n",FILE_APPEND);
+
+    }
+    public static function obj2str($mix){
         $str="";
         if(is_array($mix)){
             foreach($mix as $k=>$v){
-                $str.=(strlen($str)?"\n\t":"")."{$k} = {$v}";
+                $str.="\t{$k} = ".rtrim($v)."\n";
             }
-            $str="array [\n".$str."\n]";
+            $str="array [\n".$str."]";
         }
         elseif (is_object($mix)) {
             $mix = json_decode(json_encode($mix),true);
             foreach($mix as $k=>$v){
-                $str.="\n\t{$k} = {$v}";
+                $str.="\t{$k} = {$v}\n";
             }
-            $str="object [".$str."\n]";
+            $str="object [\n".$str."]";
         }
         else $str=$mix;
-        (class_exists("Log",false))?call_user_func("Log::debug",$str."\n"):file_put_contents("../garan24-".date("Y-m-d").'.log',$str."\n",FILE_APPEND);
-
+        return $str;
     }
 }
 ?>

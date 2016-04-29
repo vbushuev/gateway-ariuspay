@@ -1,6 +1,6 @@
 <?php
 namespace Garan24\Gateway\Aruispay;
-use \Garan24\BaseConnector as BaseConnector;
+use \Garan24\Gateway\BaseConnector as BaseConnector;
 use \Garan24\Gateway\Aruispay\Exception  as Garan24GatewayAruispayException;
 use \Garan24\Interfaces\ITransaction as ITransaction;
 class AccountVerification extends BaseConnector{

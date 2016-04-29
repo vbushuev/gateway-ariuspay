@@ -1,13 +1,13 @@
 <?php
 namespace Garan24\Gateway\Aruispay;
-use \Garan24\BaseConnector as BaseConnector;
+use \Garan24\Gateway\BaseConnector as BaseConnector;
 use \Garan24\Gateway\Aruispay\Exception  as Garan24GatewayAruispayException;
 use \Garan24\Interfaces\ITransaction as ITransaction;
-class Preauth extends BaseConnector{
+class Sale extends BaseConnector{
     public function __construct($data=[]){
         parent::__construct(["endpoint"=>"1144"]);
         $this->_request_data = $data;
-        $this->_method = "preauth-form";
+        $this->_method = "sale-form";
     }
     public function check(){
         $req = [

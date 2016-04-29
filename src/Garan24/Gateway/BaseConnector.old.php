@@ -1,7 +1,9 @@
 <?php
-namespace Garan24;
+namespace Garan24\Gateway;
 use \Garan24\Gateway\Aruispay\Exception  as Garan24GatewayAruispayException;
-class BaseConnector extends \Garan24\Garan24 implements Interfaces\IConnector{
+use \Garan24\Gateway\Request  as Request;
+use \Garan24\Gateway\Response  as Response;
+class BaseConnector extends \Garan24\Garan24 implements \Garan24\Interfaces\IConnector{
     protected $_curl;
     protected $_curl_options;
     protected $_url;
@@ -43,6 +45,9 @@ class BaseConnector extends \Garan24\Garan24 implements Interfaces\IConnector{
     protected $_request_data = [];
     protected $_response_data = [];
     protected $_method = "sale-form";
+
+    protected Request $request;
+    protected Response $response;
 
     public function __construct($opts = []){
         $this->_url = (!isset($opts["url"]))?"https://sandbox.ariuspay.ru/paynet/api/v2/":$opts["url"];
