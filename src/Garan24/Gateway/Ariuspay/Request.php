@@ -115,7 +115,7 @@ class Request extends HTTPRequest{
                     $str.=$this->_merchant_key;
                     break;
                 case "amount":
-                    $str.=preg_replace("/[\.,\-\s].*/","",$this->_params["amount"]*100);
+                    $str.=preg_replace("/[\.,\-\s].*/","",round($this->_params["amount"],2)*100);
                     break;
                 case "login":
                     $str.=$this->_merchant_login;
