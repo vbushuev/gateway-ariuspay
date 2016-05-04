@@ -32,7 +32,7 @@ class BaseConnector extends \Garan24\Garan24 implements \Garan24\Interfaces\ICon
         $this->_response = $this->_request->buildResponse($response_arr);
         self::debug($this->_request->__toString());
         self::debug($this->_response->__toString());
-        if($this->_response->isRedirect())$this->redirect($this->_response->getRedirectUrl());
+        //if($this->_response->isRedirect())$this->redirect($this->_response->getRedirectUrl());
         return $response_arr;
     }
     public function response($data){
